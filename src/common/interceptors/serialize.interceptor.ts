@@ -20,11 +20,14 @@ export class SerializeInterceptor implements NestInterceptor {
   constructor(private dto: any) {}
   intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
     //run before request - "handler"
+    console.log('in SerializeInterceptor');
 
     //mess around with response - "next"
     return handler.handle().pipe(
       //run something before response is sent out
       map((data: any) => {
+        console.log('------------------------------------------');
+
         return plainToInstance(this.dto, data, {
           excludeExtraneousValues: true,
         });
